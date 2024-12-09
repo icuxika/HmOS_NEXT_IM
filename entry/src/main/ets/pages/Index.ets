@@ -1,20 +1,28 @@
+import { display, router, window } from '@kit.ArkUI';
+import { BusinessError } from '@kit.BasicServicesKit';
+
 @Entry
 @Component
 struct Index {
-  @State message: string = 'Hello World';
-
   build() {
-    RelativeContainer() {
-      Text(this.message)
-        .id('HelloWorld')
-        .fontSize(50)
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
+    Column() {
+      TextInput({ placeholder: '请输入用户名' }).margin({ top: 20 })
+        .onSubmit((EnterKeyType) => {
+          console.info(EnterKeyType + '输入法回车键的类型值')
         })
-    }
-    .height('100%')
-    .width('100%')
+      TextInput({ placeholder: '请输入密码' }).type(InputType.Password).margin({ top: 20 })
+        .onSubmit((EnterKeyType) => {
+          console.info(EnterKeyType + '输入法回车键的类型值')
+        })
+      Button('登录').width(150).margin({ top: 20 })
+        .onClick(() => {
+          router.replaceUrl({ url: 'pages/Home' })
+            .then(() => {
+              console.info('Succeeded in jumping to the second page.')
+            }).catch((err: BusinessError) => {
+            console.error(`Failed to jump to the second page. Code is ${err.code}, message is ${err.message}`)
+          })
+        })
+    }.height("100%").padding(24).justifyContent(FlexAlign.Center)
   }
 }
